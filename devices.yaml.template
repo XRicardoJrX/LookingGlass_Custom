@@ -1,0 +1,32 @@
+# Atenção: Este script é de propriedade da LVNetwork. Qualquer modificação ou uso não autorizado pode comprometer a operação.
+# Em caso de necessidade, entre em contato com o NOC:
+#  0800 591 4126
+#  noc@lvnetwork.com.br
+ routers:
+   - name: AS$asn_isp $name_isp
+     address: $ip_roteador
+     network:
+       name: as$asn_isp
+       display_name: Huawei
+     credential:
+       username: lookingglass
+       password: Sup3rs3nh$@#
+     port: $port_ssh
+     nos: huawei
+     vrfs:
+       - name: global
+         default: true
+         ipv4:
+           source_address: $ip_roteador
+           access_list:
+             - network: 0.0.0.0/0
+               action: permit
+               ge: 8
+               le: 32
+         ipv6:
+           source_address: $ipv6_roteador
+           access_list:
+             - network: ::/0
+               action: permit
+               ge: 32
+               le: 128

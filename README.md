@@ -1,2 +1,5 @@
 # lookingglass
-Script para criação automatica de looking glass
+Após baixar os arquivos entre dentro da pasta criada e executa o install.sh, siga os passos como o script solicitar, caso necessário poderá entrar em contato com:
+Ricardo Mori Junior
+ricardomorijunior703@gmail.com
+

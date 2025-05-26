@@ -1,0 +1,131 @@
+# Atenção: Este script é de propriedade da LVNetwork. Qualquer modificação ou uso não autorizado pode comprometer a operação.
+# Em caso de necessidade, entre em contato com o NOC:
+#  0800 591 4126
+#  noc@lvnetwork.com.br
+ debug: true
+ developer_mode: false
+ org_name: $name_isp
+ primary_asn: $asn_isp
+ site_title: Looking Glass $name_isp
+ site_description: "{org_name} Network Looking Glass"
+ site_keywords: [hyperglass, looking glass, routing, bgp]
+ request_timeout: 30
+ listen_address: "127.0.0.1"  # IP que ira startar o serviço
+ listen_port: 58000  # Porta do servico
+ #
+ cache:
+   database: 0
+   host: localhost
+   port: 6379
+   show_text: true
+   timeout: 120
+ #
+ messages:
+   acl_denied: "{target} is a member of {denied_network}, which is not allowed."
+   acl_not_allowed: "{target} is not allowed."
+   authentication_error: Authentication error occurred.
+   connection_error: "Error connecting to {device_name}: {error}"
+   feature_not_enabled: "{feature} is not enabled for {device_name}."
+   general: Something went wrong.
+   invalid_field: "{input} is an invalid {field}."
+   invalid_input: "{target} is not a valid {query_type} target."
+   no_input: "{field} must be specified."
+   no_output: The query completed, but no matching results were found.
+   no_response: No response.
+   parsing_error: An error occurred while parsing the query output.
+   request_timeout: Request timed out.
+   vrf_not_associated: VRF {vrf_name} is not associated with {device_name}.
+   vrf_not_found: VRF {vrf_name} is not defined.
+ #
+ logging:
+   directory: /var/log
+   format: text
+   max_size: 50 MB
+ #
+ queries:
+   bgp_route:
+     display_name: BGP Route
+     enable: true
+   bgp_community:
+     #Huwei modo structured não fuciona
+     display_name: BGP Community
+     enable: false
+     mode: select
+     communities:
+       - community: 12345:666
+         display_name: Blackhole
+         description: 12345:666
+   bgp_aspath:
+     #Huwei modo structured não fuciona
+     display_name: BGP AS Path
+     enable: false
+     pattern:
+       asdot: '^(\^|^\_)((\d+\.\d+)\_|(\d+\.\d+)$|(\d+\.\d+)\(\_\.\+\_\))+$'
+       asplain: '^(\^|^\_)(\d+\_|\d+$|\d+\(\_\.\+\_\))+$'
+       mode: asplain
+   ping:
+     display_name: Ping
+     enable: true
+   traceroute:
+     display_name: Traceroute
+     enable: true
+     #
+ structured:
+   rpki:
+     mode: external
+
+ #  communities:
+ #    #Para não exibir nenhuma communities
+ #    mode: deny
+
+ #  communities:
+ #    # Para permitir apenas...
+ #    mode: permit
+ #    items:
+ #      - '65000:\d+'
+ #      - '65[1-4]00:\d+'
+
+ web:
+   links:
+     - title: PeeringDB
+       url: https://www.peeringdb.com/asn/$asn_isp
+       side: left
+       order: 1
+     - title: $name_isp
+       url: $site_isp
+       side: left
+       order: 2
+     - title: LVNetwork -  0800 591 4126
+       url: https://lvnetwork.com.br/
+       side: right
+       order: 0
+   menus:
+     - title: Termos e Condições
+       content: /etc/hyperglass/terms-and-conditions.md
+       side: right
+
+   logo:
+     dark: $darklogo
+     light: $whitelogo
+     favicon: $whitelogo
+     height: null
+     width: 70%
+
+   text:
+     cache_icon: Cached from {time} UTC
+     cache_prefix: "Results cached for "
+     complete_time: Completed in {seconds}
+     fqdn_error: Unable to resolve {fqdn}
+     fqdn_error_button: Try Again
+     fqdn_message: Your browser has resolved {fqdn} to
+     fqdn_tooltip: Use {protocol}
+     no_communities: No Communities
+     query_location: Location
+     query_target: Target
+     query_type: Query Type
+     query_vrf: Routing Table
+     rpki_invalid: Invalid
+     rpki_unknown: No ROAs Exist
+     rpki_unverified: Not Verified
+     rpki_valid: Valid
+     title: $name_isp

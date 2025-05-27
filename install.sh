@@ -184,9 +184,11 @@ echo ""
   echo "Instalando o Hyperglass...(Pode demorar alguns minutos)"
   bash install.sh
 
-
-  hyperglass setup -d
-
+if [[ ! -f "/root/hyperglass/" ]]; do
+      echo "Setup já executado!"
+      else
+         hyperglass setup -d
+fi
 
   clear
   echo "Instalacao feita com sucesso!"

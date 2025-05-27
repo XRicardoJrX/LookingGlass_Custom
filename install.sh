@@ -185,12 +185,8 @@ echo ""
   bash install.sh
 
 
-expect <<EOF
-spawn hyperglass setup
-expect "Choose a directory for hyperglass:"
-send "/root/hyperglass\r"
-expect eof
-EOF
+  hyperglass setup -d
+
 
   clear
   echo "Instalacao feita com sucesso!"

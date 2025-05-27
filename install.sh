@@ -1,7 +1,7 @@
 #!/bin/bash
 ################################################################################
-#      Script para instalação do Lookinglgass baseado no Hyperglass            #
-# Utilizaçao> Execute o arquivo como root e escolha as opções                  #
+#      Script para instalacao do Lookinglgass baseado no Hyperglass            #
+# Utilizacao> Execute o arquivo como root e escolha as opcoes                  #
 #                                                                              #
 #                                                                              #
 #                                                                              #
@@ -20,65 +20,63 @@ fi
 
 check_command() {
     if ! command -v "$1" &>/dev/null; then
-        echo "❌ Dependência ausente: '$1'. Por favor, instale com:"
+        echo "❌ Dependencia ausente: '$1'. Por favor, instale com:"
         case "$1" in
             wget)
-                echo "   Debian/Ubuntu: sudo apt install wget"
-                echo "   CentOS/RHEL:   sudo yum install wget"
+                apt install wget -y
                 ;;
             ipcalc)
-                echo "   Debian/Ubuntu: sudo apt install ipcalc"
-                echo "   CentOS/RHEL:   sudo yum install ipcalc"
+                apt install ipcalc -y
                 ;;
             *)
-                echo "   Use o gerenciador de pacotes da sua distro para instalar '$1'."
+                apt install '$1' -y
                 ;;
         esac
         exit 1
     fi
 }
 
-echo "Verificando dependências..."
+echo "Verificando dependencias..."
 check_command wget
 check_command ipcalc
 check_command dialog
-echo "✅ Todas as dependências estão instaladas!"
+echo "✅ Todas as dependencias estao instaladas!"
 echo ""
 
-echo "Olá, bem vindo a instalaço do Looking Glass, preencha os campos abaixo com os Dados do provedor "
+echo "Ola, bem vindo a instalaco do Looking Glass, preencha os campos abaixo com os Dados do provedor "
 echo ""
 read -p "Informe o nome do provedor: " name_isp
 echo ""
 read -p "Informe o ASN do provedor (Somente números ex: 270000): " asn_isp
     if ! [[ "$asn_isp" =~ ^[0-9]+$ ]]; then
-        echo "❌ ASN inválido. Deve conter apenas números."
+        echo "❌ ASN invalido. Deve conter apenas números."
         exit 1
        fi
 echo ""
-read -p "Informe o IPV4 do roteador que irá utilizar
+read -p "Informe o IPV4 do roteador que ira utilizar
 (exemplo: 45.168.168.20): " ip_roteador
 if ! ipcalc -cs "$ip_roteador" >/dev/null 2>&1; then
-    echo "❌ IPv4 inválido. Verifique se está no formato correto e se é válido."
+    echo "❌ IPv4 invalido. Verifique se esta no formato correto e se e valido."
     exit 1
 fi
 
 echo ""
-read -p "Informe o IPV6 do roteador que irá utilizar:
+read -p "Informe o IPV6 do roteador que ira utilizar:
 (exemplo: 2804:532C:0:1::131): " ipv6_roteador
 if ! ipcalc -6cs "$ipv6_roteador" >/dev/null 2>&1; then
-    echo "❌ IPv6 inválido. Verifique se está no formato correto e se é válido."
+    echo "❌ IPv6 invalido. Verifique se esta no formato correto e se e valido."
     exit 1
 fi
 echo ""
 read -p "Informe a porta SSH do do roteador:" port_ssh
 if ! [[ "$port_ssh" =~ ^[0-9]{1,5}$ ]] || [ "$port_ssh" -lt 1 ] || [ "$port_ssh" -gt 65535 ]; then
-    echo "❌ Porta SSH inválida. Deve conter até 5 números entre 1 e 65535."
+    echo "❌ Porta SSH invalida. Deve conter ate 5 números entre 1 e 65535."
     exit 1
 fi
 echo ""
 
  while true; do
-           dialog --title "Logos do Provedor" --yesno "Você já tem as logos (.png) do provedor?" 8 60
+           dialog --title "Logos do Provedor" --yesno "Voce ja tem as logos (.png) do provedor?" 8 60
         response=$?
 
         if [[ $response -eq 0 ]]; then
@@ -96,7 +94,7 @@ echo ""
               dialog --msgbox "✅ Caminho encontrado com sucesso para a imagem white." 6 50
               break
             else
-              dialog --msgbox "⚠️ Caminho inválido ou arquivo não encontrado para a imagem white. Tente novamente." 6 60
+              dialog --msgbox "⚠️ Caminho invalido ou arquivo nao encontrado para a imagem white. Tente novamente." 6 60
             fi
           done
           # Verifica imagem dark
@@ -106,34 +104,34 @@ echo ""
               dialog --msgbox "✅ Caminho encontrado com sucesso para a imagem dark." 6 50
               break
             else
-              dialog --msgbox "⚠️ Caminho inválido ou arquivo não encontrado para a imagem dark. Tente novamente." 6 60
+              dialog --msgbox "⚠️ Caminho invalido ou arquivo nao encontrado para a imagem dark. Tente novamente." 6 60
             fi
           done
           break
           ;;
         n)
-          dialog --msgbox "A imagem é obrigatória para instalação do Looking Glass.\nPor favor, baixe as imagens e inicie novamente o script!" 8 60
+          dialog --msgbox "A imagem e obrigatória para instalacao do Looking Glass.\nPor favor, baixe as imagens e inicie novamente o script!" 8 60
           clear
           exit 1
           ;;
         *)
-          dialog --msgbox "⚠️ Opção inválida!" 6 30
+          dialog --msgbox "⚠️ Opcao invalida!" 6 30
           ;;
       esac
     done
 
   while true; do
         dados_provedor="Nome do Provedor: $name_isp\nASN do Provedor: $asn_isp\nIPv4 do roteador: $ip_roteador\nIPv6 do roteador: $ipv6_roteador\nPorta SSH: $port_ssh\n\nImagem White: $whitelogo\nImagem Dark: $darklogo"
-        dialog --title "Confirmação dos Dados" --yesno "$dados_provedor\n\nOs dados estão corretos?" 15 70
+        dialog --title "Confirmacao dos Dados" --yesno "$dados_provedor\n\nOs dados estao corretos?" 15 70
         resposta=$?
         if [ $resposta -eq 0 ]; then
-#   colocar aqui a edição nos arquivos
+#   colocar aqui a edicao nos arquivos
             clear
             break
         else
                       while true; do
                           opcao=$(dialog --clear --stdout --title "Alterar Dados" \
-                              --menu "Qual opção deseja alterar?" 15 60 6 \
+                              --menu "Qual opcao deseja alterar?" 15 60 6 \
                               1 "Nome do Provedor" \
                               2 "ASN do Provedor" \
                               3 "IPv4 do Roteador" \
@@ -161,7 +159,7 @@ echo ""
                                   break
                                   ;;
                               *)
-                                  dialog --msgbox "⚠️ Opção inválida!" 6 30
+                                  dialog --msgbox "⚠️ Opcao invalida!" 6 30
                                   ;;
                           esac
                       done
@@ -170,8 +168,8 @@ echo ""
   done
 
   clear
-  echo "Iniciando a instalação do Looking Glass..."
-  echo "Instalando as dependências..."
+  echo "Iniciando a instalacao do Looking Glass..."
+  echo "Instalando as dependencias..."
   apt install -y python3-dev python3-pip python3-pil python3-pil.imagetk \
   python3-libtiff python3-glymur libtiff-dev libfreetype-dev liblcms2-2 \
   liblcms2-utils libwebp-dev libboost-dev libimagequant-dev libraqm-dev \
@@ -195,32 +193,32 @@ expect eof
 EOF
 
   clear
-  echo "Instalação feita com sucesso!"
+  echo "Instalacao feita com sucesso!"
   sleep 2
 
   clear
-  echo "Declarando as variáveis..."
+  echo "Declarando as variaveis..."
   sleep 2
 
   # Ajustando problema de webpack
   sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
 
-  # Exporta as variáveis para o ambiente
+  # Exporta as variaveis para o ambiente
   export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh
 
-  echo "Substituindo as variáveis..."
+  echo "Substituindo as variaveis..."
   sleep 2
 
-  # Substitui variáveis nos templates
+  # Substitui variaveis nos templates
   envsubst < $file_hyperglass/hyperglass.yaml.template > $file_hyperglass/hyperglass.yaml
   envsubst < $file_hyperglass/devices.yaml.template > $file_hyperglass/devices.yaml
 
-  # Validando existência do arquivo .yaml
+  # Validando existencia do arquivo .yaml
   if [[ ! -f "$file_hyperglass/hyperglass.yaml" || ! -f "$file_hyperglass/devices.yaml" ]]; then
-      echo "Os arquivos '.yaml' não foram substituídos"
+      echo "Os arquivos '.yaml' nao foram substituídos"
       exit 1
   else
-      echo "Substituição feita com sucesso!"
+      echo "Substituicao feita com sucesso!"
   fi
 
   clear
@@ -245,7 +243,7 @@ EOF
   cd /root/hyperglass/
   hyperglass build-ui
 
-  echo "Criando o serviço do Hyperglass!"
+  echo "Criando o servico do Hyperglass!"
   mkdir /root/hyperglass/service/
   touch /root/hyperglass/service/hyperglass.service
 

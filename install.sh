@@ -190,7 +190,7 @@ echo ""
 expect <<EOF
 spawn hyperglass setup
 expect "Choose a directory for hyperglass:"
-send "/root/hyperglassglass\r"
+send "/root/hyperglass\r"
 expect eof
 EOF
 
@@ -225,7 +225,7 @@ EOF
 
   clear
   echo "Movendo o arquivo para o lugar correto..."
-  if mv $file_hyperglass/*.yaml /root/hyperglassglass; then
+  if mv $file_hyperglass/*.yaml /root/hyperglass; then
       echo "✅ Arquivos movidos com sucesso!"
   else
       echo "❌ Falha ao mover os arquivos. Fechando o script..."
@@ -233,7 +233,7 @@ EOF
   fi
 
   echo "Movendo as imagens para o lugar correto..."
-  if mv "~/lookingglass/*.png" /root/hyperglassglass/static/images; then
+  if mv ~/lookingglass/*.png /root/hyperglass/static/images; then
       echo "✅ Imagens movidas com sucesso!"
   else
       echo "❌ Falha ao mover as imagens. Fechando o script..."
@@ -242,14 +242,14 @@ EOF
 
 
   echo "Iniciando o Hyperglass! (Pode demorar alguns minutos)"
-  cd /root/hyperglassglass/
+  cd /root/hyperglass/
   hyperglass build-ui
 
   echo "Criando o serviço do Hyperglass!"
-  mkdir /root/hyperglassglass/service/
-  touch /root/hyperglassglass/service/hyperglass.service
+  mkdir /root/hyperglass/service/
+  touch /root/hyperglass/service/hyperglass.service
 
-cat <<EOF > /root/hyperglassglass/service/hyperglass.service
+cat <<EOF > /root/hyperglass/service/hyperglass.service
 [Unit]
 Description=hyperglass
 After=network.target
@@ -268,7 +268,7 @@ TimeoutStopSec=300
 WantedBy=multi-user.target
   EOF
 
-  ln -s /root/hyperglassglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
+  ln -s /root/hyperglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
   systemctl daemon-reload
   systemctl enable hyperglass
 

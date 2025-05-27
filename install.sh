@@ -230,6 +230,7 @@ EOF
       exit 1
   fi
 
+
   echo "Movendo as imagens para o lugar correto..."
   if mv ~/lookingglass/*.png /root/hyperglass/static/images; then
       echo "✅ Imagens movidas com sucesso!"
@@ -237,6 +238,10 @@ EOF
       echo "❌ Falha ao mover as imagens. Fechando o script..."
       exit 1
   fi
+
+
+  whitelogo=$(ls /root/hyperglass/static/images | grep "white")
+  darklogo=$(ls /root/hyperglass/static/images | grep "dark")
 
 
   echo "Iniciando o Hyperglass! (Pode demorar alguns minutos)"

@@ -184,11 +184,9 @@ echo ""
   echo "Instalando o Hyperglass...(Pode demorar alguns minutos)"
   bash install.sh
 
-if [[ ! -f "/root/hyperglass/" ]]; do
-      echo "Setup já executado!"
-      else
-         hyperglass setup -d
-fi
+
+  hyperglass setup -d
+
 
   clear
   echo "Instalacao feita com sucesso!"
@@ -238,8 +236,13 @@ fi
   fi
 
 
-  whitelogo=$(ls /root/hyperglass/static/images | grep "white")
-  darklogo=$(ls /root/hyperglass/static/images | grep "dark")
+  whitelogo=$(find /root/hyperglass/static/images -type f -iname "*white*.png" | head -n 1)
+  darklogo=$(find /root/hyperglass/static/images -type f -iname "*dark*.png" | head -n 1)
+  if [[ -z "$darklogo" ]]; then
+    echo "Logo dark nao encontrada, usando a logo branca como fallback."
+    darklogo="$whitelogo"
+  fi
+
 
 
   echo "Iniciando o Hyperglass! (Pode demorar alguns minutos)"

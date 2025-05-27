@@ -8,7 +8,7 @@
 #Autor: Ricardo Jr                                                             #
 #Data: 15/04/2025                                                               #
 ################################################################################
-file_hyperglass="/lookingglass"
+file_hyperglass="/root/lookingglass"
 
 set -e
 
@@ -169,6 +169,7 @@ echo ""
                 fi
   done
 
+  clear
   echo "Iniciando a instalação do Looking Glass..."
   echo "Instalando as dependências..."
   apt install -y python3-dev python3-pip python3-pil python3-pil.imagetk \
@@ -176,28 +177,33 @@ echo ""
   liblcms2-utils libwebp-dev libboost-dev libimagequant-dev libraqm-dev \
   libjpeg-dev wget unzip zip git curl gnupg2 expect
 
+  clear
   echo "Baixando os arquivos..."
   cd /tmp
   wget https://raw.githubusercontent.com/remontti/hyperglass/main/install.sh
 
+  clear
   echo "Instalando o Hyperglass...(Pode demorar alguns minutos)"
   bash install.sh
 
-  expect <<EOF
-  spawn hyperglass setup
-  expect "Choose a directory for hyperglass:"
-  send "/etc/hyperglass\r"
-  expect eof
-  EOF
 
+expect <<EOF
+spawn hyperglass setup
+expect "Choose a directory for hyperglass:"
+send "/root/hyperglassglass\r"
+expect eof
+EOF
+
+  clear
   echo "Instalação feita com sucesso!"
   sleep 2
 
+  clear
   echo "Declarando as variáveis..."
   sleep 2
 
   # Ajustando problema de webpack
-  sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.9/dist-packages/hyperglass/ui/next.config.js
+  sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
 
   # Exporta as variáveis para o ambiente
   export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh
@@ -217,42 +223,52 @@ echo ""
       echo "Substituição feita com sucesso!"
   fi
 
+  clear
   echo "Movendo o arquivo para o lugar correto..."
-  if mv $file_hyperglass/*.yaml /etc/hyperglass; then
+  if mv $file_hyperglass/*.yaml /root/hyperglassglass; then
       echo "✅ Arquivos movidos com sucesso!"
   else
       echo "❌ Falha ao mover os arquivos. Fechando o script..."
       exit 1
   fi
 
+  echo "Movendo as imagens para o lugar correto..."
+  if mv "~/lookingglass/*.png" /root/hyperglassglass/static/images; then
+      echo "✅ Imagens movidas com sucesso!"
+  else
+      echo "❌ Falha ao mover as imagens. Fechando o script..."
+      exit 1
+  fi
+
+
   echo "Iniciando o Hyperglass! (Pode demorar alguns minutos)"
-  cd /etc/hyperglass/
+  cd /root/hyperglassglass/
   hyperglass build-ui
 
   echo "Criando o serviço do Hyperglass!"
-  mkdir /etc/hyperglass/service/
-  touch /etc/hyperglass/service/hyperglass.service
+  mkdir /root/hyperglassglass/service/
+  touch /root/hyperglassglass/service/hyperglass.service
 
-  cat <<EOF > /etc/hyperglass/service/hyperglass.service
-  [Unit]
-  Description=hyperglass
-  After=network.target
-  Requires=redis-server.service
+cat <<EOF > /root/hyperglassglass/service/hyperglass.service
+[Unit]
+Description=hyperglass
+After=network.target
+Requires=redis-server.service
 
-  [Service]
-  User=root
-  Group=root
-  ExecStart=/usr/local/bin/hyperglass start
-  ExecStop=/usr/bin/pkill -f hyperglass
+[Service]
+User=root
+Group=root
+ExecStart=/usr/local/bin/hyperglass start
+ExecStop=/usr/bin/pkill -f hyperglass
 
-  TimeoutStartSec=120
-  TimeoutStopSec=300
+TimeoutStartSec=120
+TimeoutStopSec=300
 
-  [Install]
-  WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
   EOF
 
-  ln -s /etc/hyperglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
+  ln -s /root/hyperglassglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
   systemctl daemon-reload
   systemctl enable hyperglass
 

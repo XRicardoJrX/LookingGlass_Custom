@@ -199,6 +199,22 @@ echo ""
   # Ajustando problema de webpack
   sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
 
+  echo "Movendo as imagens para o lugar correto..."
+  if mv ~/lookingglass/*.png /root/hyperglass/static/images; then
+      echo "✅ Imagens movidas com sucesso!"
+  else
+      echo "❌ Falha ao mover as imagens. Fechando o script..."
+      exit 1
+  fi
+
+
+  whitelogo=$(find /root/hyperglass/static/images -type f -iname "*white*.png" | head -n 1)
+  darklogo=$(find /root/hyperglass/static/images -type f -iname "*dark*.png" | head -n 1)
+  if [[ -z "$darklogo" ]]; then
+    echo "Logo dark nao encontrada, usando a logo branca como fallback."
+    darklogo="$whitelogo"
+  fi
+
   # Exporta as variaveis para o ambiente
   export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh
 
@@ -226,22 +242,6 @@ echo ""
       exit 1
   fi
 
-
-  echo "Movendo as imagens para o lugar correto..."
-  if mv ~/lookingglass/*.png /root/hyperglass/static/images; then
-      echo "✅ Imagens movidas com sucesso!"
-  else
-      echo "❌ Falha ao mover as imagens. Fechando o script..."
-      exit 1
-  fi
-
-
-  whitelogo=$(find /root/hyperglass/static/images -type f -iname "*white*.png" | head -n 1)
-  darklogo=$(find /root/hyperglass/static/images -type f -iname "*dark*.png" | head -n 1)
-  if [[ -z "$darklogo" ]]; then
-    echo "Logo dark nao encontrada, usando a logo branca como fallback."
-    darklogo="$whitelogo"
-  fi
 
 
 

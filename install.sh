@@ -186,21 +186,17 @@ echo ""
   cd /tmp
   wget https://raw.githubusercontent.com/remontti/hyperglass/main/install.sh
 
-  clear
-  echo "Instalando o Hyperglass...(Pode demorar alguns minutos)"
-  bash install.sh
-
-
-  hyperglass setup -d
-
-
-  clear
-  echo "Instalacao feita com sucesso!"
-  sleep 2
-
-  clear
-  echo "Declarando as variaveis..."
-  sleep 2
+   if [ -d "/root/hyperglass/static/" ]; then
+     echo "⚠️ O diretório /root/hyperglass/static/ já existe. Instalação do Hyperglass será ignorada."
+   else
+     echo "📦 Instalando o Hyperglass... (Pode demorar alguns minutos)"
+     bash install.sh
+     hyperglass setup -d
+      clear
+        echo "Instalacao feita com sucesso!"
+        sleep 2
+   fi
+  
 
   # Ajustando problema de webpack
   sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
@@ -230,14 +226,15 @@ echo ""
   else
     read -p "Não foi possível identificar o IP da máquina, por favor informe-o manualmente:" machine_ip
   fi
-
+  
+  echo "Declarando as variaveis..."
+  sleep 3
   # Exporta as variaveis para o ambiente
   export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh site_isp machine_ip
 
-  echo "Substituindo as variaveis..."
-  sleep 2
 
-  # Substitui variaveis nos templates
+  echo "Substituindo as variaveis..."
+  sleep 3
   envsubst < $file_hyperglass/hyperglass.yaml.template > $file_hyperglass/hyperglass.yaml
   envsubst < $file_hyperglass/devices.yaml.template > $file_hyperglass/devices.yaml
 
@@ -285,7 +282,8 @@ TimeoutStopSec=300
 WantedBy=multi-user.target
 EOF
 
-  ln -s /root/hyperglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
+  
+ln -s /root/hyperglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
   systemctl daemon-reload
   systemctl enable hyperglass
 
@@ -295,5 +293,8 @@ EOF
       echo "❌ Falha ao iniciar o Hyperglass. Verifique com: journalctl -xe"
       exit 1
   fi
+clear
+echo "Reiniciando o serviço do Hyperglass..."
+systemctl restart hyperglass
 clear
 systemctl status hyperglass

@@ -223,8 +223,18 @@ echo ""
     darklogo="$whitelogo"
   fi
 
+  
+  machine_ip=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i !~ /^127/ && $i !~ /^172\.17\./) {print $i; exit}}')
+
+ clear
+  if [[ -n "$machine_ip" ]]; then
+    echo "O IP da máquina é: $machine_ip"
+  else
+    read -p "Não foi possível identificar o IP da máquina, por favor informe-o manualmente:" machine_ip
+  fi
+
   # Exporta as variaveis para o ambiente
-  export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh site_isp
+  export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh site_isp machine_ip
 
   echo "Substituindo as variaveis..."
   sleep 2
@@ -249,8 +259,6 @@ echo ""
       echo "❌ Falha ao mover os arquivos. Fechando o script..."
       exit 1
   fi
-
-
 
 
   echo "Iniciando o Hyperglass! (Pode demorar alguns minutos)"

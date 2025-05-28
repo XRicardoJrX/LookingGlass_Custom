@@ -8,7 +8,7 @@
 #Autor: Ricardo Jr                                                             #
 #Data: 15/04/2025                                                               #
 ################################################################################
-file_hyperglass="/root/lookingglass"
+file_hyperglass="/root/LookingGlass_Custom/"
 
 set -e
 
@@ -28,11 +28,10 @@ check_command() {
             ipcalc)
                 apt install ipcalc -y
                 ;;
-            *)
-                apt install '$1' -y
+            dialog)
+                apt install dialog -y
                 ;;
         esac
-        exit 1
     fi
 }
 
@@ -42,7 +41,6 @@ check_command ipcalc
 check_command dialog
 echo "✅ Todas as dependencias estao instaladas!"
 echo ""
-
 echo "Ola, bem vindo a instalaco do Looking Glass, preencha os campos abaixo com os Dados do provedor "
 echo ""
 read -p "Informe o nome do provedor: " name_isp
@@ -208,7 +206,7 @@ echo ""
   sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
 
   echo "Movendo as imagens para o lugar correto..."
-  if mv ~/lookingglass/*.png /root/hyperglass/static/images; then
+  if mv ~/LookingGlass_Custom/*.png /root/hyperglass/static/images; then
       echo "✅ Imagens movidas com sucesso!"
   else
       echo "❌ Falha ao mover as imagens. Fechando o script..."

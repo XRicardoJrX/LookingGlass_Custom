@@ -199,7 +199,7 @@ echo ""
   
 
   # Ajustando problema de webpack
-  sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.10/dist-packages/hyperglass/ui/next.config.js
+  sed -i 's/webpack5: true,/webpack5: false,/g' /usr/local/lib/python3.9/dist-packages/hyperglass/ui/next.config.js
 
   echo "Movendo as imagens para o lugar correto..."
   if mv ~/LookingGlass_Custom/*.png /root/hyperglass/static/images; then

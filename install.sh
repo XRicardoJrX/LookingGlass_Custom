@@ -73,7 +73,7 @@ if ! [[ "$port_ssh" =~ ^[0-9]{1,5}$ ]] || [ "$port_ssh" -lt 1 ] || [ "$port_ssh"
 fi
 echo ""
 echo ""
-read -p "Informe o site do cliente: " site_isp
+read -p "Informe o site do cliente:(exemlo https://seusite.com.br) " site_isp
 echo ""
 
  while true; do

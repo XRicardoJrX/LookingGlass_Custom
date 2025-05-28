@@ -258,8 +258,7 @@ echo ""
   hyperglass build-ui
 
   echo "Criando o servico do Hyperglass!"
-  mkdir /root/hyperglass/service/
-  touch /root/hyperglass/service/hyperglass.service
+  mkdir -p /root/hyperglass/service/
 
 cat <<EOF > /root/hyperglass/service/hyperglass.service
 [Unit]
@@ -278,7 +277,7 @@ TimeoutStopSec=300
 
 [Install]
 WantedBy=multi-user.target
-  EOF
+EOF
 
   ln -s /root/hyperglass/service/hyperglass.service /etc/systemd/system/hyperglass.service
   systemctl daemon-reload
@@ -290,3 +289,5 @@ WantedBy=multi-user.target
       echo "❌ Falha ao iniciar o Hyperglass. Verifique com: journalctl -xe"
       exit 1
   fi
+clear
+systemctl status hyperglass

@@ -10,7 +10,7 @@
  site_description: "{org_name} Network Looking Glass"
  site_keywords: [hyperglass, looking glass, routing, bgp]
  request_timeout: 30
- listen_address: "127.0.0.1"  # IP que ira startar o serviço
+ listen_address: "$machine_ip"  # IP que ira startar o serviço
  listen_port: 58000  # Porta do servico
  #
  cache:

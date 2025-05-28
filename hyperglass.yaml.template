@@ -1,7 +1,5 @@
-# Atenção: Este script é de propriedade da LVNetwork. Qualquer modificação ou uso não autorizado pode comprometer a operação.
-# Em caso de necessidade, entre em contato com o NOC:
-#  0800 591 4126
-#  noc@lvnetwork.com.br
+# Atenção: Este script é de propriedade de Ricardo Mori. Qualquer modificação ou uso não autorizado pode comprometer a operação.
+# Em caso de necessidade ou caso encontre algum problema, favor abrir uma nova issue com sua duvida ou relato de bug.
  debug: true
  developer_mode: false
  org_name: $name_isp

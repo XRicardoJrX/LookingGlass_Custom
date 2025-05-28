@@ -74,6 +74,9 @@ if ! [[ "$port_ssh" =~ ^[0-9]{1,5}$ ]] || [ "$port_ssh" -lt 1 ] || [ "$port_ssh"
     exit 1
 fi
 echo ""
+echo ""
+read -p "Informe o site do cliente: " site_isp
+echo ""
 
  while true; do
            dialog --title "Logos do Provedor" --yesno "Voce ja tem as logos (.png) do provedor?" 8 60
@@ -137,7 +140,8 @@ echo ""
                               3 "IPv4 do Roteador" \
                               4 "IPv6 do Roteador" \
                               5 "Porta SSH" \
-                              6 "Cancelar")
+                              6 "Site Provedor"
+                              7 "Cancelar")
 
                           case "$opcao" in
                               1)
@@ -156,8 +160,12 @@ echo ""
                                   port_ssh=$(dialog --stdout --inputbox "Informe a nova porta SSH do Roteador" 8 60 "$port_ssh")
                                   ;;
                               6)
+                                  site_isp=$(dialog --stdout --inputbox "Informe o novo site do Provedor" 8 60 "$site_isp")
+                                  ;;
+                              7)
                                   break
                                   ;;
+
                               *)
                                   dialog --msgbox "⚠️ Opcao invalida!" 6 30
                                   ;;
@@ -216,7 +224,7 @@ echo ""
   fi
 
   # Exporta as variaveis para o ambiente
-  export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh
+  export name_isp asn_isp ip_roteador ipv6_roteador whitelogo darklogo port_ssh site_isp
 
   echo "Substituindo as variaveis..."
   sleep 2

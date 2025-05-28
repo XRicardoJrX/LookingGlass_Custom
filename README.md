@@ -30,7 +30,7 @@ Este repositório contém um script automatizado para instalação e configuraç
 Em resumo precisamos realizar o clone do repositório e baixar a imagem do provedor os demais recursos serão solicitados durante a execução.
 
 ```bash
-git clone https://github.com/XRicardoJrX/lookingglass.git
+git clone https://github.com/XRicardoJrX/LookingGlass_Custom
 cd lookingglass
 wget (IMAGEM DO PROVEDOR)
 chmod +x install.sh

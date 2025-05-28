@@ -20,7 +20,7 @@ Este repositório contém um script automatizado para instalação e configuraç
 
 ## ✅ Requisitos
 
-- Sistema baseado em Debian/Ubuntu
+- Debian 11 ou Superior
 - Python 3.10 ou superior
 - `dialog`, `expect`, `git`, `curl` e outros utilitários comuns
 

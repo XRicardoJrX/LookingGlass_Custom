@@ -223,7 +223,7 @@ echo ""
     darklogo="$whitelogo"
   fi
 
-  
+
   machine_ip=$(hostname -I | awk '{for(i=1;i<=NF;i++) if ($i !~ /^127/ && $i !~ /^172\.17\./) {print $i; exit}}')
 
  clear
